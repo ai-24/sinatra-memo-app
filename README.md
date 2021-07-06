@@ -1,4 +1,4 @@
-#sinatra-practice
+#sinatra-memo-app
 メモの作成、管理をローカル環境ですることのできるアプリのリポジトリです。
 
 ##Requirement 

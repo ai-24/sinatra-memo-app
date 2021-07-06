@@ -32,7 +32,7 @@ h1 {
     height: 300px;
 }
 
-.new-memo-save {
+.new-memo-save, .edit-memo-save {
     width: 120px;
     height: 40px;
     font-size: 18px;
@@ -43,4 +43,38 @@ input, textarea {
     width: 700px;
     margin: 0 auto;
     margin-top: 40px;
+}
+
+.detail {
+    margin: 50px 150px 0 150px;
+}
+
+.title-name, .content {
+    margin-left: 40px;
+}
+
+.return {
+    display: inline-block;
+    padding-top: 50px;
+    margin-left: 100px;
+    margin-bottom: 30px;
+}
+
+.edit-button, .edit-memo-delete {
+    width: 200px;
+}
+
+.edit-button {
+    float: left;
+    margin-left: 170px;
+}
+
+.edit-memo-delete {
+    float: right;
+    margin-right: 170px;
+}
+
+.save, .delete {
+    margin-left: 400px;
+    margin-top: 60px;
 }

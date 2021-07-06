@@ -3,32 +3,35 @@ require 'sinatra/reloader'
 require "json"
 require 'securerandom'
 
-get '/' do
-  @title = 'ホーム|メモアプリ'
-  file_name = Dir.glob("*.json")
-  @file = file_name.map do |f|
-    File.open("#{f}",'r') do |file|
-      JSON.load(file)
-    end
+def files
+file_name = Dir.glob("*.json")
+file_name.map do |f|
+  File.open("#{f}",'r') do |file|
+    JSON.load(file)
   end
-  @files = @file.sort { |a,b| b["time"] <=> a["time"] }
-  @numbers = @files.size
+end
+end
+
+get '/' do
+  @tag = 'ホーム|メモアプリ'
+  @files = files.sort { |a,b| b["time"] <=> a["time"] }
+  @size = @files.size
   erb :index
 end
 
 get '/memos/new' do
-  @title = '新規作成|メモアプリ'
+  @tag = '新規作成|メモアプリ'
   erb :new_memo
 end
 
 post '/memos' do
-  @title = '保存しました|メモアプリ'
-  @name = params[:name]
-  @contents = params[:contents]
+  @tag = '保存しました|メモアプリ'
+  @title = params[:title]
+  @content = params[:content]
   @file_name = SecureRandom.uuid
   File.open("#{@file_name}.json",'w') do |file|
     @time = File.ctime("#{@file_name}.json")
-    hash = { id: @file_name, name: @name, contents: @contents, time: @time }
+    hash = { id: @file_name, title: @title, content: @content, time: @time }
     JSON.dump(hash,file)
   end
   redirect to("/memos")
@@ -36,37 +39,30 @@ post '/memos' do
 end
 
 get '/memos' do
-  @title = '保存しました|メモアプリ'
+  @tag = '保存しました|メモアプリ'
   erb :save
 end
 
 get '/memos/:id' do
-  @title = '詳細|メモアプリ'
+  @tag = '詳細|メモアプリ'
   @id = params[:id]
-  file_name = Dir.glob("*.json")
-  @file = file_name.map do |f|
-    File.open("#{f}",'r') do |file|
-      JSON.load(file)
-    end
-  end
-  @file_detail = @file.find { |x| x["id"].include?(@id)}
+  @file_detail = files.find { |x| x["id"].include?(@id)}
   erb :detail
 end
 
 get '/memos/:id/edit' do
-  @title = '編集|メモアプリ'
+  @tag = '編集|メモアプリ'
   @id = params[:id]
-  file_name = Dir.glob("*.json")
-  @file = file_name.map do |f|
-    File.open("#{f}",'r') do |file|
-      JSON.load(file)
-    end
+  @file_detail = files.find { |x| x["id"].include?(@id)}
+  if @file_detail
+    erb :edit_memo
+  else
+    redirect to('not_found')
   end
-  @file_detail = @file.find { |x| x["id"].include?(@id)}
-  erb :edit_memo
 end
 
 delete '/memos/:id' do
+  @tag = '削除|メモアプリ'
   @id = params[:id]
   File.delete("#{@id}.json")
   redirect to("/memos/#{@id}/delete")
@@ -74,18 +70,19 @@ delete '/memos/:id' do
 end
 
 get '/memos/:id/delete' do
+  @tag = '削除|メモアプリ'
   @id = params[:id]
   erb :delete
 end
 
 patch '/memos/:id' do
-  @title = '編集|メモアプリ'
+  @tag = '編集|メモアプリ'
   @id = params[:id]
-  @name = params[:edit_name]
-  @contents = params[:edit_contents]
+  @title = params[:edit_title]
+  @content = params[:edit_content]
   File.open("#{@id}.json",'w') do |file|
     @time = File.ctime("#{@id}.json")
-    hash = { id: @id, name: @name, contents: @contents, time: @time }
+    hash = { id: @id, title: @title, content: @content, time: @time }
     JSON.dump(hash,file)
   end
   redirect to("memos/#{@id}/save")
@@ -93,6 +90,22 @@ patch '/memos/:id' do
 end
 
 get '/memos/:id/save' do
+  @tag = '編集|メモアプリ'
   @id = params[:id]
   erb :save
+end
+
+helpers do
+  def h(text)
+    Rack::Utils.escape_html(text)
+  end
+
+  def hattr(text)
+    Rack::Utils.escape_path(text)
+  end
+end
+
+not_found do
+  @tag = '404 ページが存在しません'
+  '404 ページが存在しません'
 end

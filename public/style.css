@@ -1,0 +1,46 @@
+body {
+    color: #333333;
+    margin: 0;
+    background-color: #FFFFF0;
+}
+ header {
+     background-color: aliceblue;
+ }
+h1 {
+    letter-spacing: 4px;
+    display: inline-block;
+    margin-left: 70px;
+}
+
+.index-button {
+    width: 120px;
+    height: 40px;
+    letter-spacing: 3px;
+    float: right;
+    margin: 30px 100px;
+}
+
+.index-body {
+    margin: 40px 130px;
+}
+
+.new-memo-title, .edit-memo-title {
+    height: 50px;
+}
+
+.new-memo-text {
+    height: 300px;
+}
+
+.new-memo-save {
+    width: 120px;
+    height: 40px;
+    font-size: 18px;
+}
+
+input, textarea {
+    display: block;
+    width: 700px;
+    margin: 0 auto;
+    margin-top: 40px;
+}

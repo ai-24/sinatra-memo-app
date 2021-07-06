@@ -1,0 +1,25 @@
+<header>
+  <h1>メモアプリ</h1>
+<form method="get" action="/memos/new">
+  <input type="submit" value="新規作成" class="index-button" formaction="/memos/new" >
+</form>
+</header>
+<div class="index-body">
+  <h2>リスト</h2>
+  <ul>
+    <% if @numbers > 0 %>
+    <li><a href="/memos/<%= @files[0]["id"]%>"><%= @files[0]["name"] %></a></li>
+      <% end %>
+    <% if @numbers > 1 %>
+    <li><a href="/memos/<%= @files[1]["id"]%>"><%= @files[1]["name"] %></li>
+      <% end %>
+    <% if @numbers > 2 %>
+    <li><a href="/memos/<%= @files[2]["id"]%>"><%= @files[2]["name"] %></li>
+      <% end %>
+    <% if @numbers > 3 %>
+    <li><a href="/memos/<%= @files[3]["id"]%>"><%= @files[3]["name"] %></li>
+      <% end %>
+  </ul>
+</div>
+
+

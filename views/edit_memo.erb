@@ -1,0 +1,10 @@
+<header>
+  <h1>メモアプリ</h1>
+</header>
+<form method="POST" action="/memos/<%= @file_detail["id"] %>">
+  <input type="hidden" name="_method" value="PATCH"/>
+  <input class="edit-memo-title" type="text" name="edit_name" value="<%= @file_detail["name"] %>">
+  <textarea class="edit-memo-text" name="edit_contents"><%= @file_detail["contents"] %></textarea>
+  <input class="edit-memo-save" type="submit" value="変更">
+</form>
+<a href="/">トップに戻る</a>

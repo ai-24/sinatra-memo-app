@@ -1,25 +1,21 @@
 <header>
   <h1>メモアプリ</h1>
 </header>
-<form method="get" action="/memos/new">
-  <input type="submit" value="新規作成" class="index-button">
-</form>
+<a class="index-button" href="/memos/new">新規作成</a>
 <div class="index-body">
   <h2>リスト</h2>
   <ul>
     <% if @size > 0 %>
-    <li><a href="/memos/<%= @files[0]["id"]%>"><%= h(@files[0]["title"]) %></a></li>
-      <% end %>
+      <li><a href="/memos/<%= @files[0]["id"]%>"><%= h(@files[0]["title"]) %></a></li>
+    <% end %>
     <% if @size > 1 %>
-    <li><a href="/memos/<%= @files[1]["id"]%>"><%= h(@files[1]["title"]) %></li>
-      <% end %>
+      <li><a href="/memos/<%= @files[1]["id"]%>"><%= h(@files[1]["title"]) %></li>
+    <% end %>
     <% if @size > 2 %>
-    <li><a href="/memos/<%= @files[2]["id"]%>"><%= h(@files[2]["title"]) %></li>
-      <% end %>
+      <li><a href="/memos/<%= @files[2]["id"]%>"><%= h(@files[2]["title"]) %></li>
+    <% end %>
     <% if @size > 3 %>
-    <li><a href="/memos/<%= @files[3]["id"]%>"><%= h(@files[3]["title"]) %></li>
-      <% end %>
+      <li><a href="/memos/<%= @files[3]["id"]%>"><%= h(@files[3]["title"]) %></li>
+    <% end %>
   </ul>
 </div>
-
-

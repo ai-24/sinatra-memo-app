@@ -6,9 +6,7 @@
 <p class="title-name"><%=  h(@file_detail["title"]) %></p>
 <h2>内容</h2>
 <p class="content"><%= h(@file_detail["content"]) %></p>
-<form method="get" action="/memos/<%= @id %>/edit">
-  <input class="edit-button" type="submit" value="変更">
-</form>
+  <a class="edit-button" href="/memos/<%= @id %>/edit">変更</a>
 <form method="POST" action="/memos/<%= @id %>">
   <input type="hidden" name="_method" value="DELETE"/>
   <input class="edit-memo-delete" type="submit" value="削除">

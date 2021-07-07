@@ -14,7 +14,7 @@ webrick 1.7.0
 
 3.作業PCの任意のディレクトリにてgit cloneしてください。
 
-4.上記に記載しているRequirementがインストールされていなければ、インストールしてください。
+4.上記に記載しているRequirementをGemfileを使ってインストールしてください。
 
 5.`buncle exec ruby memo_app.rb`を実行してください。
 

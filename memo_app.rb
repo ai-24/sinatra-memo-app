@@ -2,22 +2,19 @@
 
 require 'sinatra'
 require 'sinatra/reloader'
-require 'json'
 require 'securerandom'
+require 'pg'
 
-def files
-  file_name = Dir.glob('*.json')
-  file_name.map do |f|
-    File.open(f.to_s, 'r') do |file|
-      JSON.load(file)
-    end
-  end
-end
+connect = PG::connect( dbname: 'memo_app' )
 
 get '/' do
   @tag = 'ホーム|メモアプリ'
-  @files = files.sort { |a, b| b['time'] <=> a['time'] }
-  @size = @files.size
+  result = connect.exec('select id, title, time from memo')
+  @array_memos = result.map do |memo|
+    memo
+  end
+  @memos = @array_memos.sort { |a, b| b['time'] <=> a['time'] }
+  @size = @memos.size
   erb :index
 end
 
@@ -30,12 +27,10 @@ post '/memos' do
   @tag = '保存しました|メモアプリ'
   @title = params[:title]
   @content = params[:content]
-  @file_name = SecureRandom.uuid
-  File.open("#{@file_name}.json", 'w') do |file|
-    @time = File.ctime("#{@file_name}.json")
-    hash = { id: @file_name, title: @title, content: @content, time: @time }
-    JSON.dump(hash, file)
-  end
+  @id = SecureRandom.uuid
+  @time = Time.now
+  connect.exec_params('insert into memo(id, title, content, time) values ($1, $2, $3, $4)',
+                     [@id, @title, @content, @time])
   redirect to('/memos')
   erb :detail
 end
@@ -48,15 +43,15 @@ end
 get '/memos/:id' do
   @tag = '詳細|メモアプリ'
   @id = params[:id]
-  @file_detail = files.find { |x| x['id'].include?(@id) }
+  @memo_detail = connect.exec('select id, title, content from memo where id = $1',[@id])
   erb :detail
 end
 
 get '/memos/:id/edit' do
   @tag = '編集|メモアプリ'
   @id = params[:id]
-  @file_detail = files.find { |x| x['id'].include?(@id) }
-  if @file_detail
+  @memo_detail = connect.exec('select title, content from memo where id = $1', [@id])
+  if @memo_detail
     erb :edit_memo
   else
     redirect to('not_found')
@@ -66,7 +61,7 @@ end
 delete '/memos/:id' do
   @tag = '削除|メモアプリ'
   @id = params[:id]
-  File.delete("#{@id}.json")
+  connect.exec('delete from memo where id = $1', [@id])
   redirect to("/memos/#{@id}/delete")
   erb :delete
 end
@@ -82,11 +77,8 @@ patch '/memos/:id' do
   @id = params[:id]
   @title = params[:edit_title]
   @content = params[:edit_content]
-  File.open("#{@id}.json", 'w') do |file|
-    @time = File.ctime("#{@id}.json")
-    hash = { id: @id, title: @title, content: @content, time: @time }
-    JSON.dump(hash, file)
-  end
+  @time = Time.now
+  connect.exec('update memo set title = $1, content = $2, time = $3 where id = $4', [@title, @content, @time, @id])
   redirect to("memos/#{@id}/save")
   erb :save
 end

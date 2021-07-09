@@ -6,16 +6,16 @@
   <h2>リスト</h2>
   <ul>
     <% if @size > 0 %>
-      <li><a href="/memos/<%= @files[0]["id"]%>"><%= h(@files[0]["title"]) %></a></li>
+      <li><a href="/memos/<%= h(@memos[0]["id"])%>"><%= h(@memos[0]["title"]) %></a></li>
     <% end %>
     <% if @size > 1 %>
-      <li><a href="/memos/<%= @files[1]["id"]%>"><%= h(@files[1]["title"]) %></li>
+      <li><a href="/memos/<%= h(@memos[1]["id"])%>"><%= h(@memos[1]["title"]) %></li>
     <% end %>
     <% if @size > 2 %>
-      <li><a href="/memos/<%= @files[2]["id"]%>"><%= h(@files[2]["title"]) %></li>
+      <li><a href="/memos/<%= h(@memos[2]["id"])%>"><%= h(@memos[2]["title"]) %></li>
     <% end %>
     <% if @size > 3 %>
-      <li><a href="/memos/<%= @files[3]["id"]%>"><%= h(@files[3]["title"]) %></li>
+      <li><a href="/memos/<%= h(@memos[3]["id"])%>"><%= h(@memos[3]["title"]) %></li>
     <% end %>
   </ul>
 </div>

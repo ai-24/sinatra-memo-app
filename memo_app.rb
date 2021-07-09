@@ -8,7 +8,7 @@ require 'securerandom'
 def files
   file_name = Dir.glob('*.json')
   file_name.map do |f|
-    File.open(f.to_s, 'r') do |file|
+    File.open(f, 'r') do |file|
       JSON.load(file)
     end
   end

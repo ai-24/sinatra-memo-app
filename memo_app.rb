@@ -5,7 +5,7 @@ require 'sinatra/reloader'
 require 'securerandom'
 require 'pg'
 
-connect = PG::connect( dbname: 'memo_app' )
+connect = PG.connect(dbname: 'memo_app')
 
 get '/' do
   @tag = 'ホーム|メモアプリ'
@@ -30,7 +30,7 @@ post '/memos' do
   @id = SecureRandom.uuid
   @time = Time.now
   connect.exec_params('insert into memo(id, title, content, time) values ($1, $2, $3, $4)',
-                     [@id, @title, @content, @time])
+                      [@id, @title, @content, @time])
   redirect to('/memos')
   erb :detail
 end
@@ -43,7 +43,7 @@ end
 get '/memos/:id' do
   @tag = '詳細|メモアプリ'
   @id = params[:id]
-  @memo_detail = connect.exec('select id, title, content from memo where id = $1',[@id])
+  @memo_detail = connect.exec('select id, title, content from memo where id = $1', [@id])
   erb :detail
 end
 

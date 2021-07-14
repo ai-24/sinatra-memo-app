@@ -8,15 +8,16 @@ require 'securerandom'
 def files
   file_name = Dir.glob('*.json')
   file_name.map do |f|
-    File.open(f.to_s, 'r') do |file|
-      JSON.load(file)
+    File.open(f, 'r') do |file|
+      file_content = file.read
+      JSON.parse(file_content)
     end
   end
 end
 
 get '/' do
   @tag = 'ホーム|メモアプリ'
-  @files = files.sort { |a, b| b['time'] <=> a['time'] }
+  @files = files.sort_by { |f| [f['time']] }.reverse
   @size = @files.size
   erb :index
 end
@@ -49,7 +50,15 @@ get '/memos/:id' do
   @tag = '詳細|メモアプリ'
   @id = params[:id]
   @file_detail = files.find { |x| x['id'].include?(@id) }
-  erb :detail
+  if @file_detail
+    erb :detail
+  else
+    not_found do
+      status 404
+      @tag = '404 ページが存在しません'
+      '404 ページが存在しません'
+    end
+  end
 end
 
 get '/memos/:id/edit' do

@@ -16,10 +16,7 @@ def files
 end
 
 get '/' do
-  @tag = 'ホーム|メモアプリ'
-  @files = files.sort_by { |f| [f['time']] }.reverse
-  @size = @files.size
-  erb :index
+  redirect to('/memos')
 end
 
 get '/memos/new' do
@@ -37,13 +34,19 @@ post '/memos' do
     hash = { id: @file_name, title: @title, content: @content, time: @time }
     JSON.dump(hash, file)
   end
-  redirect to('/memos')
+  redirect to('/memos?complete=1')
   erb :detail
 end
 
 get '/memos' do
-  @tag = '保存しました|メモアプリ'
-  erb :save
+  @tag = 'ホーム|メモアプリ'
+  @files = files.sort_by { |f| [f['time']] }.reverse
+  @size = @files.size
+  if params['complete']
+    erb :save
+  else
+    erb :index
+  end
 end
 
 get '/memos/:id' do
@@ -97,13 +100,12 @@ patch '/memos/:id' do
     JSON.dump(hash, file)
   end
   redirect to("memos/#{@id}/save")
-  erb :save
 end
 
 get '/memos/:id/save' do
   @tag = '編集|メモアプリ'
   @id = params[:id]
-  erb :save
+  erb :edit_save
 end
 
 helpers do

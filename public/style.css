@@ -62,6 +62,7 @@ input, textarea {
 
 .title-name, .content {
     margin-left: 40px;
+    white-space: pre;
 }
 
 .return {

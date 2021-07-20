@@ -37,7 +37,7 @@ end
 
 get '/memos' do
   @tag = 'ホーム|メモアプリ'
-  @files = files.sort_by { |f| [f['time']] }.reverse
+  @files = files.sort_by { |f| f['time'] }.reverse
   @size = @files.size
   erb :index
 end
@@ -56,7 +56,7 @@ end
 get '/memos/:id/edit' do
   @tag = '編集|メモアプリ'
   @id = params[:id]
-  @file_detail = files.find { |x| x['id'].include?(@id) }
+  @file_detail = files.find { |x| x['id'] == (@id) }
   if @file_detail
     erb :edit_memo
   else

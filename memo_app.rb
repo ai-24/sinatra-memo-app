@@ -4,18 +4,12 @@ require 'sinatra'
 require 'sinatra/reloader'
 require 'securerandom'
 require 'pg'
+require 'webrick'
 
 connect = PG.connect(dbname: 'memo_app')
 
 get '/' do
-  @tag = 'ホーム|メモアプリ'
-  result = connect.exec('select id, title, time from memo')
-  @array_memos = result.map do |memo|
-    memo
-  end
-  @memos = @array_memos.sort { |a, b| b['time'] <=> a['time'] }
-  @size = @memos.size
-  erb :index
+  redirect to('/memos')
 end
 
 get '/memos/new' do
@@ -24,27 +18,33 @@ get '/memos/new' do
 end
 
 post '/memos' do
-  @tag = '保存しました|メモアプリ'
-  @title = params[:title]
-  @content = params[:content]
-  @id = SecureRandom.uuid
-  @time = Time.now
+  title = params[:title]
+  content = params[:content]
+  id = SecureRandom.uuid
+  time = Time.now
   connect.exec_params('insert into memo(id, title, content, time) values ($1, $2, $3, $4)',
-                      [@id, @title, @content, @time])
-  redirect to('/memos')
-  erb :detail
+                      [id, title, content, time])
+  redirect to('/memos?complete=1')
 end
 
 get '/memos' do
-  @tag = '保存しました|メモアプリ'
-  erb :save
+  @tag = 'ホーム|メモアプリ'
+  result = connect.exec('select id, title, time from memo')
+  array_memos = result.map { |memo| memo }
+  @memos = array_memos.sort_by { |a| a['time'] }.reverse
+  @size = @memos.size
+  erb :index
 end
 
 get '/memos/:id' do
   @tag = '詳細|メモアプリ'
   @id = params[:id]
   @memo_detail = connect.exec('select id, title, content from memo where id = $1', [@id])
-  erb :detail
+  if @memo_detail
+    erb :detail
+  else
+    redirect to('not_found')
+  end
 end
 
 get '/memos/:id/edit' do
@@ -59,34 +59,18 @@ get '/memos/:id/edit' do
 end
 
 delete '/memos/:id' do
-  @tag = '削除|メモアプリ'
-  @id = params[:id]
-  connect.exec('delete from memo where id = $1', [@id])
-  redirect to("/memos/#{@id}/delete")
-  erb :delete
-end
-
-get '/memos/:id/delete' do
-  @tag = '削除|メモアプリ'
-  @id = params[:id]
-  erb :delete
+  id = params[:id]
+  connect.exec('delete from memo where id = $1', [id])
+  redirect to('/memos?delete=1')
 end
 
 patch '/memos/:id' do
-  @tag = '編集|メモアプリ'
-  @id = params[:id]
-  @title = params[:edit_title]
-  @content = params[:edit_content]
-  @time = Time.now
-  connect.exec('update memo set title = $1, content = $2, time = $3 where id = $4', [@title, @content, @time, @id])
-  redirect to("memos/#{@id}/save")
-  erb :save
-end
-
-get '/memos/:id/save' do
-  @tag = '編集|メモアプリ'
-  @id = params[:id]
-  erb :save
+  id = params[:id]
+  title = params[:edit_title]
+  content = params[:edit_content]
+  time = Time.now
+  connect.exec('update memo set title = $1, content = $2, time = $3 where id = $4', [title, content, time, id])
+  redirect to('memos?edit=1')
 end
 
 helpers do

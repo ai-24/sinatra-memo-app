@@ -6,8 +6,8 @@
 <p class="title-name"><%=  h(@memo_detail[0]['title']) %></p>
 <h2>内容</h2>
 <p class="content"><%= h(@memo_detail[0]['content']) %></p>
-  <a class="edit-button" href="/memos/<%= h(@id) %>/edit">変更</a>
-<form method="POST" action="/memos/<%= h(@id) %>">
+  <a class="edit-button" href="/memos/<%= hattr(@id) %>/edit">変更</a>
+<form method="POST" action="/memos/<%= hattr(@id) %>">
   <input type="hidden" name="_method" value="DELETE"/>
   <input class="edit-memo-delete" type="submit" value="削除">
 </form>

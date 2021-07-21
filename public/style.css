@@ -54,6 +54,7 @@ input, textarea {
     width: 700px;
     margin: 0 auto;
     margin-top: 40px;
+    white-space: pre;
 }
 
 .detail {
@@ -85,7 +86,7 @@ input, textarea {
     font-size: smaller;
     text-decoration: none;
     margin-top: 40px;
-
+    margin-left: 170px;
 }
 
 .edit-memo-delete {
@@ -94,12 +95,7 @@ input, textarea {
     margin-right: 170px;
 }
 
-.edit-button {
-    float: left;
-    margin-left: 170px;
-}
-
-.save, .delete {
-    margin-left: 400px;
-    margin-top: 60px;
-}
+/*.save, .delete {*/
+/*    margin-left: 400px;*/
+/*    margin-top: 60px;*/
+/*}*/

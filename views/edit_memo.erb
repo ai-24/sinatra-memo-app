@@ -1,7 +1,7 @@
 <header>
   <h1>メモアプリ</h1>
 </header>
-<form method="POST" action="/memos/<%= h(@id) %>">
+<form method="POST" action="/memos/<%= hattr(@id) %>">
   <input type="hidden" name="_method" value="PATCH"/>
   <input class="edit-memo-title" type="text" name="edit_title" value="<%= h(@memo_detail[0]['title']) %>">
   <textarea name="edit_content"><%= h(@memo_detail[0]['content']) %></textarea>

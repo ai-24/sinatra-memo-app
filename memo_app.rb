@@ -4,7 +4,7 @@ require 'sinatra'
 require 'sinatra/reloader'
 require 'securerandom'
 require 'pg'
-require 'webrick'
+
 
 connect = PG.connect(dbname: 'memo_app')
 

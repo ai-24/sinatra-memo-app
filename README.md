@@ -1,7 +1,7 @@
 #sinatra-memo-app
 メモの作成、管理をローカル環境ですることのできるアプリのリポジトリです。
 
-##Requirement 
+##Requirement
 Ruby 3.0.0<br>
 sinatra 2.1.0<br>
 sinatra-contrib 2.1.0<br>

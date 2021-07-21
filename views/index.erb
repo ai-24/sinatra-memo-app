@@ -1,0 +1,28 @@
+<header>
+  <h1>メモアプリ</h1>
+</header>
+<% if params['complete'] %>
+  <p class="save">保存しました</p>
+<% elsif params['delete']%>
+  <p class="delete">メモを削除しました</p>
+<% elsif params['save']%>
+  <p class="save">保存しました</p>
+<% end %>
+<a class="index-button" href="/memos/new">新規作成</a>
+<div class="index-body">
+  <h2>リスト</h2>
+  <ul>
+    <% if @size > 0 %>
+      <li><a href="/memos/<%= hattr(@files[0]["id"])%>"><%= h(@files[0]["title"]) %></a></li>
+    <% end %>
+    <% if @size > 1 %>
+      <li><a href="/memos/<%= hattr(@files[1]["id"])%>"><%= h(@files[1]["title"]) %></li>
+    <% end %>
+    <% if @size > 2 %>
+      <li><a href="/memos/<%= hattr(@files[2]["id"])%>"><%= h(@files[2]["title"]) %></li>
+    <% end %>
+    <% if @size > 3 %>
+      <li><a href="/memos/<%= hattr(@files[3]["id"])%>"><%= h(@files[3]["title"]) %></li>
+    <% end %>
+  </ul>
+</div>

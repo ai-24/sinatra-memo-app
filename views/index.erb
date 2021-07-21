@@ -2,9 +2,9 @@
   <h1>メモアプリ</h1>
 </header>
 <% if params['complete'] || params['edit']%>
-  <p>保存しました</p>
+  <p class="save">保存しました</p>
 <% elsif params['delete']%>
-  <p>削除しました</p>
+  <p class="delete">削除しました</p>
 <% end %>
 <a class="index-button" href="/memos/new">新規作成</a>
 <div class="index-body">

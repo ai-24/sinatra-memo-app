@@ -95,7 +95,7 @@ input, textarea {
     margin-right: 170px;
 }
 
-/*.save, .delete {*/
-/*    margin-left: 400px;*/
-/*    margin-top: 60px;*/
-/*}*/
+.save, .delete {
+    margin-left: 400px;
+    margin-top: 60px;
+}

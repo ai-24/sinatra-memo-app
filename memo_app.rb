@@ -5,7 +5,6 @@ require 'sinatra/reloader'
 require 'securerandom'
 require 'pg'
 
-
 connect = PG.connect(dbname: 'memo_app')
 
 get '/' do

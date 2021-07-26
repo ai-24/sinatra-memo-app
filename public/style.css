@@ -54,6 +54,9 @@ input, textarea {
     width: 700px;
     margin: 0 auto;
     margin-top: 40px;
+}
+
+.title-name, input, textarea, .content {
     white-space: pre;
 }
 

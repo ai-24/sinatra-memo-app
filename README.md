@@ -42,5 +42,16 @@ gem 'webrick'
 gem 'pg'
 ```
 
+### 以降DBを使用するためのインストール・設定です。
+Homebrewを使用していきます。
+1. `$ brew install postgresql`コマンドでPostgreSQLをインストール
+2. `$ brew services start postgresql`でPostgreSQLを自動起動するように設定します。
+3. `$ psql -U${USER} postgres`でPostgreSQLにログインする
+4. `postgres=# create user postgres with SUPERUSER;`で
+操作用ユーザーPostgresを作成
+   
+5. `$ psql -Upostgres`でログインし直し`postgres=# create database memo_app owner=postgres;`でデータベースを作成
+6. memo_appにログインした状態で`memo_app=#create table memo(id integer not null, title text, content text, time date, primary key(id));`でテーブルを作成。
+
 ##注意点
 MACでのみ動作確認しています。

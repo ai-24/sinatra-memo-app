@@ -1,10 +1,10 @@
 <header>
   <h1>メモアプリ</h1>
 </header>
-<form method="POST" action="/memos/<%= @file_detail["id"] %>">
+<form method="POST" action="/memos/<%= hattr(@id) %>">
   <input type="hidden" name="_method" value="PATCH"/>
-  <input class="edit-memo-title" type="text" name="edit_title" value="<%= @file_detail["title"] %>">
-  <textarea name="edit_content"><%= @file_detail["content"] %></textarea>
+  <input class="edit-memo-title" type="text" name="edit_title" value="<%= h(@memo_detail[0]['title']) %>">
+  <textarea name="edit_content"><%= h(@memo_detail[0]['content']) %></textarea>
   <input class="edit-memo-save" type="submit" value="変更">
 </form>
 <a class="return" href="/">トップに戻る</a>

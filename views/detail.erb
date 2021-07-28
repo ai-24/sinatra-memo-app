@@ -3,11 +3,11 @@
 </header>
 <div class="detail">
 <h2>タイトル</h2>
-<p class="title-name"><%=  h(@file_detail["title"]) %></p>
+<p class="title-name"><%= h(@memo_detail[0]['title']) %></p>
 <h2>内容</h2>
-<p class="content"><%= h(@file_detail["content"]) %></p>
+<p class="content"><%= h(@memo_detail[0]['content']) %></p>
   <a class="edit-button" href="/memos/<%= hattr(@id) %>/edit">変更</a>
-<form method="POST" action="/memos/<%= @id %>">
+<form method="POST" action="/memos/<%= hattr(@id) %>">
   <input type="hidden" name="_method" value="DELETE"/>
   <input class="edit-memo-delete" type="submit" value="削除">
 </form>
